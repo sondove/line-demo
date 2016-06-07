@@ -1,0 +1,53 @@
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+.content {
+  width: 980px;
+  height: 100%;
+  margin:auto;
+  margin-top: 50px;
+  padding:10px;
+
+  font-family: lato;
+}
+
+
+h1 {
+  font-size: 32px;
+  font-weight: 300;
+}
+
+p {
+  font-family: lora;
+}
+
+.canvas {
+  border: 1px solid black;
+  width 960px;
+  height: 500px;
+  background: #6fb6ff;
+  background: #4d98fd;
+  background: white;
+}
+
+
+.canvas .axis {
+  font: 10px lato;
+}
+
+.canvas .axis path,
+.canvas .axis line {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.canvas circle.dot{
+  fill:black;
+}

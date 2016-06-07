@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Line idea</title>
+    <meta charset="utf-8" /> 
+    <script src="ramda.min.js"></script>
+    <script src="d3.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,900italic,700italic,400italic,300italic,100italic,900,700,300,100|Lora:400,400italic,700italic,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <div class='content'>
+      <h1>Line demo behaviour</h1>
+      <div class='canvas-box'> 
+        <div class='canvas' id='target'>
+      </div>
+      <p>
+      A simple demo of how a physical line-based transition could look.
+      </p>
+
+      </div>
+    </div>
+  </body>
+  <script>
+
+    var hband = 128;
+    var vband = 100;
+
+    var t = d3.select('#target');
+
+    var margin = {top: 40, left: 40, bottom: 40, right: 40},
+        width  = 960,
+        height = 500,
+        w = width - margin.left - margin.right,
+        h = height - margin.top - margin.bottom;
+
+
+    var svg = t.append('svg')
+      .attr('width',width)
+      .attr('height',height)
+    .append('g')     
+      .attr('transform','translate('+(margin.left)+','+(margin.top)+')');
+
+
+
+    var x = d3.scale.ordinal()
+          .rangePoints([0,w],0,0)
+          .domain(d3.range(vband))
+      
+    var y = d3.scale.ordinal()
+          .rangePoints([0,h],0,0)
+          .domain(d3.range(hband))
+
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .tickSize(-h,-h)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .tickSize(-w,-w)
+      .orient("left")
+
+    svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis)
+      .selectAll('text').remove()
+
+    svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+      .selectAll('text').remove()
+
+
+    var m = d3.range(vband).map(function(d){ return 64})
+
+
+    var nthArg = R.nthArg;
+    var compose = R.compose;
+
+    var xf = compose(x, nthArg(1))
+
+    var dots = svg.selectAll('.dot')
+      .data(m)
+    .enter().append('circle')
+      .classed('dot',true)
+      .attr('cx',xf)
+      .attr('cy',y)
+      .attr('r',2)
+  
+
+
+    var m2 = d3.range(vband).map(function(d,i){ return i+10})
+
+    
+    svg.selectAll('.dot')
+      .data(m2)
+    .transition('step')
+      .delay(function(d,i){ return 50*i})
+      .duration(750)
+      .attr('cx',xf)
+      .attr('cy',y)
+
+
+
+  </script>
+</html>
